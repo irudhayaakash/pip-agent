@@ -1,3 +1,4 @@
+
 (() => {
   "use strict";
 
@@ -8,112 +9,61 @@
     const secretMessage = document.getElementById("secretMessage");
     const projectMessage = document.getElementById("projectMessage");
     const pipImage = document.querySelector(".hero-art .pip-image");
-    const storySection =
-      document.getElementById("story") ||
-      document.querySelector(".story-section");
+    const storySection = document.getElementById("story");
+    const scenes = document.querySelectorAll(".story-scene");
 
-    let dreamMode = false;
     let soundEnabled = false;
     let audioContext = null;
-    let eggFound = false;
+    let pipClicks = 0;
+    let secretFound = false;
     let lanternLit = false;
-    let pipClickCount = 0;
 
-    // THEME TOGGLE
-    function updateTheme() {
-      document.body.classList.toggle("dream-mode", dreamMode);
-
-      if (themeToggle) {
-        themeToggle.textContent = dreamMode
-          ? "☀️ Day mode"
-          : "☾ Dream mode";
-
-        themeToggle.setAttribute(
-          "aria-pressed",
-          String(dreamMode)
-        );
-      }
-    }
-
+    // DREAM MODE
     if (themeToggle) {
       themeToggle.addEventListener("click", () => {
-        dreamMode = !dreamMode;
-        updateTheme();
-        playChime(660);
+        const enabled = document.body.classList.toggle("dream-mode");
+        themeToggle.textContent = enabled ? "☀️ Day mode" : "☾ Dream mode";
+        themeToggle.setAttribute("aria-pressed", String(enabled));
       });
-
-      updateTheme();
     }
 
-    // AUDIO SETUP
+    // SOUND
     function getAudioContext() {
-      const AudioContextClass =
-        window.AudioContext || window.webkitAudioContext;
-
-      if (!AudioContextClass) {
-        return null;
-      }
-
-      if (!audioContext) {
-        audioContext = new AudioContextClass();
-      }
-
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return null;
+      if (!audioContext) audioContext = new AudioContextClass();
       return audioContext;
     }
 
-    function playChime(frequency = 660, duration = 0.25) {
+    async function playChime(frequency = 660, duration = 0.25) {
       if (!soundEnabled) return;
 
-      const context = getAudioContext();
-
-      if (!context || context.state !== "running") {
-        return;
-      }
-
       try {
+        const context = getAudioContext();
+        if (!context) return;
+        if (context.state === "suspended") await context.resume();
+        if (context.state !== "running") return;
+
         const oscillator = context.createOscillator();
         const gain = context.createGain();
         const now = context.currentTime;
 
         oscillator.type = "sine";
-
-        oscillator.frequency.setValueAtTime(
-          frequency,
-          now
-        );
-
-        oscillator.frequency.exponentialRampToValueAtTime(
-          Math.max(100, frequency * 0.72),
-          now + duration * 0.8
-        );
-
+        oscillator.frequency.setValueAtTime(frequency, now);
         gain.gain.setValueAtTime(0.0001, now);
-
-        gain.gain.exponentialRampToValueAtTime(
-          0.05,
-          now + 0.025
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-          0.0001,
-          now + duration
-        );
+        gain.gain.exponentialRampToValueAtTime(0.07, now + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
         oscillator.connect(gain);
         gain.connect(context.destination);
-
         oscillator.start(now);
         oscillator.stop(now + duration + 0.02);
       } catch (error) {
-        console.error("Audio error:", error);
+        console.error("Sound error:", error);
       }
     }
 
-    // SOUND TOGGLE
     if (soundToggle) {
-      soundToggle.textContent = "♫ Sound: off";
-      soundToggle.setAttribute("aria-pressed", "false");
-
       soundToggle.addEventListener("click", async () => {
         if (soundEnabled) {
           soundEnabled = false;
@@ -124,33 +74,22 @@
 
         try {
           const context = getAudioContext();
-
           if (!context) {
             soundToggle.textContent = "♫ Sound unavailable";
             return;
           }
 
-          if (context.state === "suspended") {
-            await context.resume();
-          }
+          if (context.state === "suspended") await context.resume();
 
           soundEnabled = context.state === "running";
+          soundToggle.textContent = soundEnabled ? "♫ Sound: on" : "♫ Sound: off";
+          soundToggle.setAttribute("aria-pressed", String(soundEnabled));
 
-          soundToggle.textContent = soundEnabled
-            ? "♫ Sound: on"
-            : "♫ Sound: off";
-
-          soundToggle.setAttribute(
-            "aria-pressed",
-            String(soundEnabled)
-          );
-
-          if (soundEnabled) {
-            playChime(660);
-          }
+          if (soundEnabled) await playChime(660);
         } catch (error) {
           soundEnabled = false;
           soundToggle.textContent = "♫ Sound: off";
+          soundToggle.setAttribute("aria-pressed", "false");
           console.error("Unable to enable sound:", error);
         }
       });
@@ -158,30 +97,21 @@
 
     // PROJECT BUTTONS
     document.querySelectorAll(".project-action").forEach((button) => {
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
         const action = button.dataset.action;
 
-        // LULLABY
         if (action === "lullaby") {
           if (projectMessage) {
-            projectMessage.textContent =
-              "Three little notes for a sleepy night. ♫";
+            projectMessage.textContent = "Three little notes for a sleepy night. ♫";
           }
 
           [523, 659, 784].forEach((note, index) => {
-            window.setTimeout(() => {
-              playChime(note, 0.3);
-            }, index * 260);
+            window.setTimeout(() => playChime(note, 0.3), index * 300);
           });
-
-        // LANTERN
         } else if (action === "lantern") {
           lanternLit = !lanternLit;
-
-          document.body.classList.toggle(
-            "lantern-lit",
-            lanternLit
-          );
+          document.body.classList.toggle("lantern-lit", lanternLit);
+          button.setAttribute("aria-pressed", String(lanternLit));
 
           if (projectMessage) {
             projectMessage.textContent = lanternLit
@@ -189,20 +119,11 @@
               : "The lantern is resting now. ☾";
           }
 
-          button.setAttribute(
-            "aria-pressed",
-            String(lanternLit)
-          );
-
-          playChime(784);
-
-        // STORY
+          await playChime(784);
         } else if (action === "story") {
           if (storySection) {
             storySection.scrollIntoView({
-              behavior: window.matchMedia(
-                "(prefers-reduced-motion: reduce)"
-              ).matches
+              behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
                 ? "auto"
                 : "smooth",
               block: "start"
@@ -210,37 +131,24 @@
           }
 
           if (projectMessage) {
-            projectMessage.textContent =
-              "Pip's bedtime story is waiting for you. ♡";
+            projectMessage.textContent = "Pip's bedtime story is waiting for you. ♡";
           }
 
-          playChime(587);
+          await playChime(587);
         }
       });
     });
 
     // TINY SECRET
-    function showSecret() {
-      if (eggFound) {
-        if (secretMessage) {
-          secretMessage.textContent =
-            "You already found Pip's little secret. Sweet dreams! ♡";
-        }
-
-        return;
-      }
-
-      eggFound = true;
-
+    async function showSecret() {
+      secretFound = true;
       document.body.classList.add("egg-unlocked");
 
       if (secretMessage) {
         secretMessage.textContent =
           "✨ You found Pip's tiny secret! Sweet dreams, little dreamer. 💗";
-
+        secretMessage.hidden = false;
         secretMessage.style.display = "block";
-        secretMessage.style.visibility = "visible";
-        secretMessage.style.opacity = "1";
         secretMessage.setAttribute("aria-live", "polite");
       }
 
@@ -261,7 +169,7 @@
         }
       }
 
-      playChime(880);
+      await playChime(880);
     }
 
     if (secretButton) {
@@ -272,7 +180,6 @@
     if (pipImage) {
       pipImage.style.cursor = "pointer";
       pipImage.title = "Psst... click Pip three times!";
-
       pipImage.setAttribute("role", "button");
       pipImage.setAttribute("tabindex", "0");
       pipImage.setAttribute(
@@ -281,15 +188,15 @@
       );
 
       function handlePipClick() {
-        pipClickCount += 1;
+        pipClicks += 1;
 
-        if (pipClickCount >= 3) {
+        if (pipClicks >= 3) {
+          pipClicks = 0;
           showSecret();
         }
       }
 
       pipImage.addEventListener("click", handlePipClick);
-
       pipImage.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
@@ -298,51 +205,25 @@
       });
     }
 
-    // STORY SCENE ANIMATIONS
-    const scenes = document.querySelectorAll(".story-scene");
-
+    // STORY SCENE REVEALS
     if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        {
-          threshold: 0.12
-        }
-      );
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
 
-      scenes.forEach((scene) => {
-        observer.observe(scene);
-      });
+      scenes.forEach((scene) => observer.observe(scene));
     } else {
-      scenes.forEach((scene) => {
-        scene.classList.add("is-visible");
-      });
+      scenes.forEach((scene) => scene.classList.add("is-visible"));
     }
-
-    // MAKE STORY SCENES VISIBLE BY DEFAULT
-    scenes.forEach((scene) => {
-      if (
-        !scene.classList.contains("is-visible") &&
-        !("IntersectionObserver" in window)
-      ) {
-        scene.classList.add("is-visible");
-      }
-    });
   }
 
-  // START AFTER HTML HAS LOADED
   if (document.readyState === "loading") {
-    document.addEventListener(
-      "DOMContentLoaded",
-      initPipSite,
-      { once: true }
-    );
+    document.addEventListener("DOMContentLoaded", initPipSite, { once: true });
   } else {
     initPipSite();
   }
