@@ -1,938 +1,210 @@
 
-/* ========================================
-   PIP'S DREAM NURSERY — CORRECTED STYLE.CSS
-======================================== */
-
-:root {
-  --bg: #fff9f5;
-  --surface: #ffffff;
-  --text: #493b52;
-  --muted: #887a91;
-  --primary: #e8a9c6;
-  --primary-dark: #c66e9b;
-  --accent: #f6dca8;
-  --border: #f0dfeb;
-  --shadow: 0 12px 35px rgba(111, 75, 112, 0.10);
-  --radius: 24px;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 100px;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--bg);
-  color: var(--text);
-  font-family: "Fredoka", "Segoe UI", sans-serif;
-  line-height: 1.7;
-  transition: background 0.35s ease, color 0.35s ease;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
-}
-
-button {
-  font: inherit;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button:focus-visible,
-a:focus-visible,
-.pip-image:focus-visible {
-  outline: 3px solid var(--primary-dark);
-  outline-offset: 4px;
-}
-
-section {
-  scroll-margin-top: 100px;
-}
-
-h1,
-h2,
-h3,
-p {
-  margin-top: 0;
-}
-
-h1,
-h2,
-h3 {
-  line-height: 1.2;
-}
-
-h1 {
-  margin-bottom: 22px;
-  font-size: clamp(3.2rem, 7vw, 6.2rem);
-  letter-spacing: -2px;
-  font-weight: 600;
-}
-
-h1 span {
-  color: var(--primary-dark);
-}
-
-h2 {
-  margin-bottom: 18px;
-  font-size: clamp(2.2rem, 4.5vw, 3.7rem);
-  letter-spacing: -1px;
-  font-weight: 600;
-}
-
-h3 {
-  margin-bottom: 12px;
-  font-size: 1.55rem;
-  font-weight: 600;
-}
-
-p {
-  color: var(--muted);
-}
-
-/* ========================================
-   HEADER
-======================================== */
-
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 16px 6%;
-  background: rgba(255, 249, 245, 0.94);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(14px);
-}
-
-.wordmark {
-  flex-shrink: 0;
-  color: var(--text);
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-
-.topbar nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-}
-
-.topbar nav a {
-  color: var(--muted);
-  font-size: 0.98rem;
-  transition: color 0.2s ease;
-}
-
-.topbar nav a:hover {
-  color: var(--primary-dark);
-}
-
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.controls button {
-  padding: 9px 14px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--text);
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.controls button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-}
-
-/* ========================================
-   MAIN LAYOUT
-======================================== */
-
-main {
-  width: min(1120px, 88%);
-  margin: 0 auto;
-}
-
-.section {
-  padding: 100px 0;
-}
-
-.section-lead {
-  max-width: 650px;
-  margin-bottom: 32px;
-  font-size: 1.12rem;
-  line-height: 1.8;
-}
-
-/* ========================================
-   HERO SECTION
-======================================== */
-
-.hero {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  align-items: center;
-  gap: 60px;
-  min-height: 78vh;
-  padding-top: 70px;
-  padding-bottom: 70px;
-}
-
-.hero-copy {
-  max-width: 620px;
-}
-
-.eyebrow {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-bottom: 24px;
-  color: var(--primary-dark);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-}
-
-.eyebrow-dot {
-  width: 8px;
-  height: 8px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--primary-dark);
-  box-shadow: 0 0 12px rgba(198, 110, 155, 0.4);
-}
-
-.eyebrow-sep {
-  color: var(--accent);
-}
-
-.intro {
-  max-width: 520px;
-  margin-bottom: 30px;
-  font-size: 1.13rem;
-  line-height: 1.9;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.primary-button,
-.secondary-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  min-height: 48px;
-  padding: 13px 21px;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  font-size: 0.98rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
-.primary-button {
-  background: var(--primary);
-  color: #493448;
-}
-
-.primary-button:hover {
-  transform: translateY(-3px);
-  background: #f0b9d2;
-  box-shadow: 0 10px 24px rgba(198, 110, 155, 0.2);
-}
-
-.secondary-button {
-  border-color: var(--border);
-  background: var(--surface);
-  color: var(--text);
-}
-
-.secondary-button:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow);
-}
-
-.primary-button:active,
-.secondary-button:active {
-  transform: scale(0.98);
-}
-
-.tiny-note {
-  margin-top: 24px;
-  font-size: 0.85rem;
-}
-
-.hero-art {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-}
-
-.hero-art .pip-image {
-  width: min(100%, 420px);
-  max-height: 490px;
-  object-fit: contain;
-  border-radius: var(--radius);
-  filter: drop-shadow(0 18px 28px rgba(173, 117, 158, 0.16));
-  animation: pip-float 4s ease-in-out infinite;
-  transition: filter 0.3s ease;
-}
-
-.hero-art .pip-image:hover {
-  filter: drop-shadow(0 22px 35px rgba(173, 117, 158, 0.25));
-}
-
-.hero-art-sparkle {
-  position: absolute;
-  color: var(--primary-dark);
-  pointer-events: none;
-}
-
-.sparkle-one {
-  top: 14%;
-  right: 7%;
-  font-size: 2rem;
-  animation: sparkle 3s ease-in-out infinite;
-}
-
-.sparkle-two {
-  bottom: 15%;
-  left: 4%;
-  font-size: 2.5rem;
-  animation: sparkle 3.5s ease-in-out infinite reverse;
-}
-
-@keyframes pip-float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-}
-
-@keyframes sparkle {
-  0%, 100% {
-    opacity: 0.5;
-    transform: scale(0.9) rotate(0);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.15) rotate(15deg);
-  }
-}
-
-/* ========================================
-   ABOUT SECTION
-======================================== */
-
-#about {
-  border-top: 1px solid var(--border);
-}
-
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 26px 0 32px;
-}
-
-.tag-list span {
-  padding: 9px 16px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--muted);
-  font-size: 0.92rem;
-}
-
-.character-facts {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.character-facts article {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 23px;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: var(--surface);
-  box-shadow: var(--shadow);
-}
-
-.character-facts article span {
-  color: var(--primary-dark);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 1.4px;
-}
-
-.character-facts article strong {
-  font-size: 1.05rem;
-  font-weight: 500;
-}
-
-/* ========================================
-   PROJECTS / DREAM LAB
-======================================== */
-
-#projects {
-  border-top: 1px solid var(--border);
-}
-
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px;
-  margin-top: 38px;
-}
-
-.project-card {
-  min-width: 0;
-  overflow: hidden;
-  padding: 24px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  box-shadow: var(--shadow);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 18px 42px rgba(111, 75, 112, 0.15);
-}
-
-.project-art,
-.lantern-art {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  min-height: 210px;
-  margin-bottom: 22px;
-  border-radius: 18px;
-  background: #fff5f8;
-}
-
-.project-art img,
-.lantern-art img {
-  width: 100%;
-  height: 240px;
-  object-fit: contain;
-  transition: transform 0.3s ease;
-}
-
-.project-card:hover .project-art img,
-.project-card:hover .lantern-art img {
-  transform: scale(1.04);
-}
-
-.project-card .project-number {
-  margin-bottom: 9px;
-  color: var(--primary-dark);
-  font-size: 0.73rem;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-}
-
-.project-card h3 {
-  margin-bottom: 10px;
-}
-
-.project-card > p:not(.project-number) {
-  min-height: 52px;
-  margin-bottom: 20px;
-}
-
-.project-action {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 48px;
-  padding: 12px 18px;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  background: var(--primary);
-  color: #493448;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
-.project-action:hover {
-  transform: translateY(-2px);
-  background: #f0b9d2;
-  box-shadow: 0 8px 20px rgba(198, 110, 155, 0.18);
-}
-
-.project-action:active {
-  transform: scale(0.98);
-}
-
-.feedback {
-  min-height: 28px;
-  margin-top: 24px;
-  color: var(--primary-dark);
-  font-weight: 500;
-}
-
-/* ========================================
-   STORY SECTION
-======================================== */
-
-.story-section {
-  border-top: 1px solid var(--border);
-}
-
-.story-scene {
-  position: relative;
-  padding: 30px;
-  margin: 24px 0;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  box-shadow: var(--shadow);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.story-scene:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 36px rgba(111, 75, 112, 0.13);
-}
-
-.scene-number {
-  display: inline-block;
-  margin-bottom: 14px;
-  color: var(--primary-dark);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-}
-
-.story-scene h3 {
-  margin-bottom: 12px;
-}
-
-.story-scene p {
-  max-width: 760px;
-  margin-bottom: 0;
-  line-height: 1.9;
-}
-
-.story-scene.is-visible {
-  animation: story-appear 0.65s ease both;
-}
-
-@keyframes story-appear {
-  from {
-    opacity: 0.65;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ========================================
-   FINALE / TINY SECRET
-======================================== */
-
-.finale {
-  padding: 70px 30px;
-  margin-bottom: 70px;
-  border: 1px solid var(--border);
-  border-radius: 30px;
-  background:
-    radial-gradient(circle at 15% 15%, rgba(246, 220, 168, 0.24), transparent 34%),
-    radial-gradient(circle at 90% 85%, rgba(232, 169, 198, 0.22), transparent 38%),
-    var(--surface);
-  text-align: center;
-}
-
-.finale-sparkle {
-  margin-bottom: 18px;
-  color: var(--primary-dark);
-  font-size: 1.5rem;
-  letter-spacing: 8px;
-}
-
-.finale h2 {
-  margin-bottom: 16px;
-}
-
-.finale > p {
-  max-width: 550px;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-#secretButton {
-  margin-top: 12px;
-}
-
-#secretMessage {
-  min-height: 0;
-  margin: 18px auto 0;
-  color: var(--primary-dark);
-  font-size: 1.05rem;
-  font-weight: 600;
-  overflow-wrap: anywhere;
-}
-
-#secretMessage:empty {
-  display: none;
-}
-
-.egg-unlocked #secretMessage:not(:empty) {
-  padding: 18px;
-  border: 1px dashed var(--primary);
-  border-radius: 16px;
-  background: rgba(232, 169, 198, 0.13);
-  animation: secret-pop 0.45s ease both;
-}
-
-.hint {
-  margin-top: 22px;
-  font-size: 0.86rem;
-  font-style: italic;
-}
-
-@keyframes secret-pop {
-  0% {
-    opacity: 0;
-    transform: scale(0.94);
-  }
-  70% {
-    transform: scale(1.025);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* ========================================
-   DREAM MODE
-======================================== */
-
-body.dream-mode {
-  --bg: #29253f;
-  --surface: #37304f;
-  --text: #fff0f8;
-  --muted: #d0c2dc;
-  --primary: #c99ac9;
-  --primary-dark: #f0b9dc;
-  --accent: #e6c5a0;
-  --border: #514363;
-  --shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
-}
-
-body.dream-mode .topbar {
-  background: rgba(41, 37, 63, 0.94);
-}
-
-body.dream-mode .wordmark,
-body.dream-mode .topbar nav a {
-  color: var(--text);
-}
-
-body.dream-mode .controls button {
-  background: var(--surface);
-  color: var(--text);
-  border-color: var(--border);
-}
-
-body.dream-mode .primary-button,
-body.dream-mode .project-action {
-  color: #33263d;
-}
-
-body.dream-mode .project-art,
-body.dream-mode .lantern-art {
-  background: #42354e;
-}
-
-body.dream-mode .finale {
-  background:
-    radial-gradient(circle at 15% 15%, rgba(246, 220, 168, 0.09), transparent 34%),
-    radial-gradient(circle at 90% 85%, rgba(232, 169, 198, 0.12), transparent 38%),
-    var(--surface);
-}
-
-/* ========================================
-   LANTERN GLOW
-======================================== */
-
-body.lantern-lit {
-  background-image: radial-gradient(
-    circle at 50% 42%,
-    rgba(255, 216, 135, 0.18),
-    transparent 65%
-  );
-  background-attachment: fixed;
-}
-
-body.lantern-lit .dream-lantern-image {
-  filter: drop-shadow(0 0 24px rgba(255, 205, 112, 0.65));
-  animation: lantern-pulse 2s ease-in-out infinite alternate;
-}
-
-@keyframes lantern-pulse {
-  from {
-    filter: drop-shadow(0 0 12px rgba(255, 205, 112, 0.35));
-  }
-  to {
-    filter: drop-shadow(0 0 28px rgba(255, 205, 112, 0.75));
-  }
-}
-
-/* ========================================
-   FOOTER
-======================================== */
-
-.footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 28px 6%;
-  border-top: 1px solid var(--border);
-}
-
-.footer span {
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-.footer a {
-  color: var(--primary-dark);
-  font-weight: 500;
-}
-
-.footer a:hover {
-  text-decoration: underline;
-}
-
-/* ========================================
-   RESPONSIVE DESIGN
-======================================== */
-
-@media (max-width: 900px) {
-  .topbar {
-    flex-wrap: wrap;
-    gap: 14px;
+(() => {
+  "use strict";
+
+  function initPipSite() {
+    const themeToggle = document.getElementById("themeToggle");
+    const soundToggle = document.getElementById("soundToggle");
+    const secretButton = document.getElementById("secretButton");
+    const secretMessage = document.getElementById("secretMessage");
+    const projectMessage = document.getElementById("projectMessage");
+    const pipImage = document.querySelector(".hero-art .pip-image");
+    const storySection = document.getElementById("story");
+
+    let soundEnabled = false;
+    let audioContext = null;
+    let pipClicks = 0;
+    let pipClickTimer = null;
+
+    // DREAM MODE
+    if (themeToggle) {
+      themeToggle.addEventListener("click", () => {
+        const enabled = document.body.classList.toggle("dream-mode");
+
+        themeToggle.setAttribute("aria-pressed", String(enabled));
+        themeToggle.title = enabled ? "Turn Dream Mode off" : "Turn Dream Mode on";
+      });
+    }
+
+    // SOUND
+    function getAudioContext() {
+      const AudioContextClass =
+        window.AudioContext || window.webkitAudioContext;
+
+      if (!AudioContextClass) return null;
+
+      if (!audioContext) {
+        audioContext = new AudioContextClass();
+      }
+
+      return audioContext;
+    }
+
+    function playChime(frequency = 523, duration = 0.2) {
+      if (!soundEnabled) return;
+
+      try {
+        const context = getAudioContext();
+        if (!context) return;
+
+        if (context.state === "suspended") {
+          context.resume();
+        }
+
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+
+        oscillator.type = "sine";
+        oscillator.frequency.value = frequency;
+
+        gain.gain.setValueAtTime(0.0001, context.currentTime);
+        gain.gain.exponentialRampToValueAtTime(
+          0.12,
+          context.currentTime + 0.03
+        );
+        gain.gain.exponentialRampToValueAtTime(
+          0.0001,
+          context.currentTime + duration
+        );
+
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+
+        oscillator.start();
+        oscillator.stop(context.currentTime + duration);
+      } catch (error) {
+        console.error("Sound could not play:", error);
+      }
+    }
+
+    if (soundToggle) {
+      soundToggle.setAttribute("aria-pressed", "false");
+
+      soundToggle.addEventListener("click", async () => {
+        soundEnabled = !soundEnabled;
+
+        soundToggle.setAttribute("aria-pressed", String(soundEnabled));
+        soundToggle.title = soundEnabled ? "Turn sound off" : "Turn sound on";
+
+        if (soundEnabled) {
+          const context = getAudioContext();
+
+          if (context && context.state === "suspended") {
+            await context.resume();
+          }
+
+          playChime(659, 0.25);
+        }
+      });
+    }
+
+    // PROJECT BUTTONS
+    document.querySelectorAll(".project-action").forEach((button) => {
+      button.addEventListener("click", () => {
+        const action = button.dataset.action;
+
+        if (action === "lullaby") {
+          if (projectMessage) {
+            projectMessage.textContent =
+              "A little lullaby, just for your dreams. ✨";
+          }
+
+          [523, 659, 784].forEach((note, index) => {
+            window.setTimeout(() => playChime(note, 0.3), index * 260);
+          });
+        }
+
+        if (action === "lantern") {
+          const lit = document.body.classList.toggle("lantern-lit");
+
+          if (projectMessage) {
+            projectMessage.textContent = lit
+              ? "Your dream lantern is glowing! 🏮"
+              : "The lantern is resting until your next dream.";
+          }
+
+          playChime(784, 0.25);
+        }
+
+        if (action === "story") {
+          if (storySection) {
+            storySection.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+          }
+
+          if (projectMessage) {
+            projectMessage.textContent =
+              "Your next adventure is waiting in the story. 📖";
+          }
+
+          playChime(659, 0.2);
+        }
+      });
+    });
+
+    // TINY SECRET
+    function revealSecret() {
+      document.body.classList.add("egg-unlocked");
+
+      if (secretMessage) {
+        secretMessage.textContent =
+          "You found Pip's tiny secret! ✨ Keep dreaming, keep creating, and remember that a little magic lives in you. 💗";
+
+        secretMessage.hidden = false;
+        secretMessage.style.display = "block";
+        secretMessage.setAttribute("aria-live", "polite");
+      }
+
+      playChime(784, 0.35);
+    }
+
+    if (secretButton) {
+      secretButton.addEventListener("click", revealSecret);
+    }
+
+    // Click Pip's picture 3 times to reveal the secret
+    if (pipImage) {
+      pipImage.addEventListener("click", () => {
+        pipClicks += 1;
+
+        window.clearTimeout(pipClickTimer);
+
+        if (pipClicks >= 3) {
+          pipClicks = 0;
+          revealSecret();
+        } else {
+          pipClickTimer = window.setTimeout(() => {
+            pipClicks = 0;
+          }, 1200);
+        }
+      });
+    }
+
+    // Reveal story scene when it enters the viewport
+    const storyScene = document.querySelector(".story-scene");
+
+    if (storyScene && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              storyScene.classList.add("visible");
+              observer.unobserve(storyScene);
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+
+      observer.observe(storyScene);
+    }
   }
 
-  .topbar nav {
-    gap: 16px;
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPipSite);
+  } else {
+    initPipSite();
   }
-
-  .hero {
-    gap: 30px;
-  }
-
-  .project-grid {
-    gap: 20px;
-  }
-
-  .project-card {
-    padding: 20px;
-  }
-}
-
-@media (max-width: 700px) {
-  main {
-    width: min(100% - 36px, 560px);
-  }
-
-  .topbar {
-    justify-content: center;
-    padding: 14px 5%;
-  }
-
-  .wordmark {
-    width: 100%;
-    text-align: center;
-  }
-
-  .topbar nav {
-    justify-content: center;
-    width: 100%;
-  }
-
-  .controls {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .section {
-    padding: 65px 0;
-  }
-
-  .hero {
-    grid-template-columns: 1fr;
-    gap: 35px;
-    min-height: auto;
-    padding-top: 55px;
-    text-align: center;
-  }
-
-  .hero-copy {
-    margin: 0 auto;
-  }
-
-  .eyebrow {
-    justify-content: center;
-  }
-
-  .intro,
-  .section-lead {
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  .hero-actions {
-    justify-content: center;
-  }
-
-  .hero-art .pip-image {
-    width: min(78%, 330px);
-    max-height: 380px;
-  }
-
-  .project-grid {
-    grid-template-columns: 1fr;
-    gap: 22px;
-  }
-
-  .project-card {
-    padding: 22px;
-  }
-
-  .project-card > p:not(.project-number) {
-    min-height: 0;
-  }
-
-  .character-facts {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .character-facts article {
-    padding: 18px;
-  }
-
-  .story-scene {
-    padding: 22px;
-  }
-
-  .finale {
-    padding: 48px 20px;
-    margin-bottom: 45px;
-  }
-
-  .footer {
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-  }
-}
-
-@media (max-width: 420px) {
-  h1 {
-    font-size: 2.8rem;
-  }
-
-  h2 {
-    font-size: 2.15rem;
-  }
-
-  .topbar nav {
-    gap: 12px;
-  }
-
-  .topbar nav a {
-    font-size: 0.9rem;
-  }
-
-  .controls button {
-    padding: 8px 12px;
-    font-size: 0.83rem;
-  }
-
-  .hero-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .primary-button,
-  .secondary-button {
-    width: 100%;
-  }
-
-  .project-art,
-  .lantern-art {
-    min-height: 180px;
-  }
-
-  .project-art img,
-  .lantern-art img {
-    height: 205px;
-  }
-}
-
-/* ========================================
-   ACCESSIBILITY
-======================================== */
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
+})();
