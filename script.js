@@ -1,230 +1,287 @@
 
-(() => {
-  "use strict";
+document.addEventListener("DOMContentLoaded", () => {
+  const themeToggle = document.getElementById("themeToggle");
+  const soundToggle = document.getElementById("soundToggle");
+  const projectMessage = document.getElementById("projectMessage");
+  const secretButton = document.getElementById("secretButton");
+  const secretMessage = document.getElementById("secretMessage");
+  const pipImage = document.querySelector(".pip-image");
 
-  function initPipSite() {
-    const themeToggle = document.getElementById("themeToggle");
-    const soundToggle = document.getElementById("soundToggle");
-    const secretButton = document.getElementById("secretButton");
-    const secretMessage = document.getElementById("secretMessage");
-    const projectMessage = document.getElementById("projectMessage");
-    const pipImage = document.querySelector(".hero-art .pip-image");
-    const storySection = document.getElementById("story");
-    const scenes = document.querySelectorAll(".story-scene");
+  let audioContext = null;
+  let soundEnabled = false;
+  let melodyTimer = null;
+  let noteIndex = 0;
+  let pipClicks = 0;
+  let pipClickTimer = null;
 
-    let soundEnabled = false;
-    let audioContext = null;
-    let pipClicks = 0;
-    let secretFound = false;
-    let lanternLit = false;
+  // DREAM MODE
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      const enabled = document.body.classList.toggle("dream-mode");
 
-    // DREAM MODE
-    if (themeToggle) {
-      themeToggle.addEventListener("click", () => {
-        const enabled = document.body.classList.toggle("dream-mode");
-        themeToggle.textContent = enabled ? "☀️ Day mode" : "☾ Dream mode";
-        themeToggle.setAttribute("aria-pressed", String(enabled));
-      });
+      themeToggle.setAttribute("aria-pressed", String(enabled));
+      themeToggle.textContent = enabled
+        ? "☀️ Day mode"
+        : "☾ Dream mode";
+    });
+  }
+
+  // AUDIO SETUP
+  function getAudioContext() {
+    const AudioContextClass =
+      window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextClass) {
+      throw new Error("Web Audio is not supported by this browser.");
     }
 
-    // SOUND
-    function getAudioContext() {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContextClass) return null;
-      if (!audioContext) audioContext = new AudioContextClass();
-      return audioContext;
+    if (!audioContext) {
+      audioContext = new AudioContextClass();
     }
 
-    async function playChime(frequency = 660, duration = 0.25) {
-      if (!soundEnabled) return;
+    return audioContext;
+  }
 
-      try {
-        const context = getAudioContext();
-        if (!context) return;
-        if (context.state === "suspended") await context.resume();
-        if (context.state !== "running") return;
+  function playNote(frequency, duration = 0.5, volume = 0.07) {
+    if (!soundEnabled) return;
 
-        const oscillator = context.createOscillator();
-        const gain = context.createGain();
-        const now = context.currentTime;
+    try {
+      const context = getAudioContext();
 
-        oscillator.type = "sine";
-        oscillator.frequency.setValueAtTime(frequency, now);
-        gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.exponentialRampToValueAtTime(0.07, now + 0.03);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-        oscillator.connect(gain);
-        gain.connect(context.destination);
-        oscillator.start(now);
-        oscillator.stop(now + duration + 0.02);
-      } catch (error) {
-        console.error("Sound error:", error);
+      if (context.state === "suspended") {
+        context.resume().catch(console.error);
       }
-    }
 
-    if (soundToggle) {
-      soundToggle.addEventListener("click", async () => {
-        if (soundEnabled) {
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(
+        frequency,
+        context.currentTime
+      );
+
+      gain.gain.setValueAtTime(0.001, context.currentTime);
+      gain.gain.linearRampToValueAtTime(
+        volume,
+        context.currentTime + 0.04
+      );
+      gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        context.currentTime + duration
+      );
+
+      oscillator.connect(gain);
+      gain.connect(context.destination);
+
+      oscillator.start();
+      oscillator.stop(context.currentTime + duration + 0.03);
+    } catch (error) {
+      console.error("Unable to play sound:", error);
+      showMessage("Your browser could not play the sound.");
+    }
+  }
+
+  const lullabyNotes = [
+    261.63, 329.63, 392.00, 329.63,
+    293.66, 349.23, 392.00, 261.63,
+    329.63, 392.00, 440.00, 392.00,
+    349.23, 329.63, 293.66, 261.63
+  ];
+
+  function playLullabyNote() {
+    if (!soundEnabled) return;
+
+    playNote(lullabyNotes[noteIndex], 0.65, 0.045);
+    noteIndex = (noteIndex + 1) % lullabyNotes.length;
+  }
+
+  function startLullaby() {
+    stopLullaby();
+    playLullabyNote();
+
+    melodyTimer = window.setInterval(() => {
+      playLullabyNote();
+    }, 650);
+  }
+
+  function stopLullaby() {
+    if (melodyTimer !== null) {
+      window.clearInterval(melodyTimer);
+      melodyTimer = null;
+    }
+  }
+
+  // SOUND ON / OFF
+  if (soundToggle) {
+    soundToggle.addEventListener("click", async () => {
+      if (!soundEnabled) {
+        try {
+          soundEnabled = true;
+          const context = getAudioContext();
+
+          await context.resume();
+
+          soundToggle.textContent = "♫ Sound: on";
+          soundToggle.setAttribute("aria-pressed", "true");
+
+          startLullaby();
+          showMessage("Sweet dreams! Your lullaby is playing. ♡");
+        } catch (error) {
           soundEnabled = false;
           soundToggle.textContent = "♫ Sound: off";
           soundToggle.setAttribute("aria-pressed", "false");
+
+          showMessage("Sound could not start. Check your browser settings.");
+          console.error(error);
+        }
+      } else {
+        soundEnabled = false;
+        stopLullaby();
+
+        soundToggle.textContent = "♫ Sound: off";
+        soundToggle.setAttribute("aria-pressed", "false");
+
+        showMessage("The nursery is quiet again. 🌙");
+      }
+    });
+  }
+
+  // PROJECT FEEDBACK
+  function showMessage(message) {
+    if (projectMessage) {
+      projectMessage.textContent = message;
+    }
+  }
+
+  // CONFETTI EFFECT
+  function celebrate() {
+    if (typeof window.confetti === "function") {
+      window.confetti({
+        particleCount: 70,
+        spread: 65,
+        origin: { y: 0.65 },
+        colors: ["#f7b7c8", "#f9d98b", "#b9c9ff", "#c5e6d3"]
+      });
+    }
+  }
+
+  // PROJECT BUTTONS
+  document.querySelectorAll(".project-action").forEach((button) => {
+    button.addEventListener("click", () => {
+      const action = button.dataset.action;
+
+      if (action === "lullaby") {
+        if (!soundEnabled) {
+          showMessage("Turn on Sound at the top to hear Pip's lullaby. ♫");
+          soundToggle?.focus();
           return;
         }
 
-        try {
-          const context = getAudioContext();
-          if (!context) {
-            soundToggle.textContent = "♫ Sound unavailable";
-            return;
-          }
+        startLullaby();
+        showMessage("Close your eyes and enjoy Pip's gentle lullaby. ♡");
+        playNote(523.25, 0.9, 0.08);
+      }
 
-          if (context.state === "suspended") await context.resume();
+      if (action === "lantern") {
+        const enabled = document.body.classList.toggle("lantern-lit");
 
-          soundEnabled = context.state === "running";
-          soundToggle.textContent = soundEnabled ? "♫ Sound: on" : "♫ Sound: off";
-          soundToggle.setAttribute("aria-pressed", String(soundEnabled));
+        button.setAttribute("aria-pressed", String(enabled));
+        button.textContent = enabled
+          ? "Dim the lantern ☾"
+          : "Light the lantern ✦";
 
-          if (soundEnabled) await playChime(660);
-        } catch (error) {
-          soundEnabled = false;
-          soundToggle.textContent = "♫ Sound: off";
-          soundToggle.setAttribute("aria-pressed", "false");
-          console.error("Unable to enable sound:", error);
+        showMessage(
+          enabled
+            ? "Pip's dream lantern is glowing! ✨"
+            : "The lantern is resting until the next dream. 🌙"
+        );
+
+        if (enabled) {
+          playNote(659.25, 0.5, 0.06);
+          celebrate();
         }
-      });
-    }
+      }
 
-    // PROJECT BUTTONS
-    document.querySelectorAll(".project-action").forEach((button) => {
-      button.addEventListener("click", async () => {
-        const action = button.dataset.action;
+      if (action === "story") {
+        const storySection = document.getElementById("story");
 
-        if (action === "lullaby") {
-          if (projectMessage) {
-            projectMessage.textContent = "Three little notes for a sleepy night. ♫";
-          }
+        showMessage("Once upon a moonlit night... let's read Pip's story. ♡");
 
-          [523, 659, 784].forEach((note, index) => {
-            window.setTimeout(() => playChime(note, 0.3), index * 300);
-          });
-        } else if (action === "lantern") {
-          lanternLit = !lanternLit;
-          document.body.classList.toggle("lantern-lit", lanternLit);
-          button.setAttribute("aria-pressed", String(lanternLit));
+        storySection?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
 
-          if (projectMessage) {
-            projectMessage.textContent = lanternLit
-              ? "The dream lantern is glowing! ✨"
-              : "The lantern is resting now. ☾";
-          }
-
-          await playChime(784);
-        } else if (action === "story") {
-          if (storySection) {
-            storySection.scrollIntoView({
-              behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-                ? "auto"
-                : "smooth",
-              block: "start"
-            });
-          }
-
-          if (projectMessage) {
-            projectMessage.textContent = "Pip's bedtime story is waiting for you. ♡";
-          }
-
-          await playChime(587);
-        }
-      });
+        playNote(392, 0.4, 0.04);
+      }
     });
+  });
 
-    // TINY SECRET
-    async function showSecret() {
-      secretFound = true;
-      document.body.classList.add("egg-unlocked");
+  // SECRET BUTTON
+  if (secretButton && secretMessage) {
+    secretButton.addEventListener("click", () => {
+      secretMessage.hidden = false;
+      secretMessage.textContent =
+        "Pip's little secret: you make the world brighter just by being you. ✨";
 
-      if (secretMessage) {
-        secretMessage.textContent =
-          "✨ You found Pip's tiny secret! Sweet dreams, little dreamer. 💗";
-        secretMessage.hidden = false;
-        secretMessage.style.display = "block";
-        secretMessage.setAttribute("aria-live", "polite");
+      secretButton.textContent = "Secret discovered! ♡";
+
+      celebrate();
+      playNote(783.99, 0.7, 0.07);
+    });
+  }
+
+  // CLICK PIP THREE TIMES
+  if (pipImage) {
+    pipImage.style.cursor = "pointer";
+
+    pipImage.addEventListener("click", () => {
+      pipClicks++;
+
+      if (pipClickTimer !== null) {
+        window.clearTimeout(pipClickTimer);
       }
 
-      if (secretButton) {
-        secretButton.textContent = "Secret unlocked! ✨";
-        secretButton.setAttribute("aria-pressed", "true");
-      }
+      pipClickTimer = window.setTimeout(() => {
+        pipClicks = 0;
+      }, 1200);
 
-      if (typeof window.confetti === "function") {
-        try {
-          window.confetti({
-            particleCount: 70,
-            spread: 65,
-            origin: { y: 0.7 }
-          });
-        } catch (error) {
-          console.error("Confetti error:", error);
+      if (pipClicks >= 3) {
+        pipClicks = 0;
+
+        if (secretMessage) {
+          secretMessage.hidden = false;
+          secretMessage.textContent =
+            "You found Pip's hidden magic! Keep dreaming, little star. ✨";
         }
+
+        celebrate();
+        playNote(659.25, 0.6, 0.07);
       }
+    });
+  }
 
-      await playChime(880);
-    }
+  // STORY SCROLL REVEAL
+  const storyScenes = document.querySelectorAll(".story-scene");
 
-    if (secretButton) {
-      secretButton.addEventListener("click", showSecret);
-    }
-
-    // CLICK PIP THREE TIMES
-    if (pipImage) {
-      pipImage.style.cursor = "pointer";
-      pipImage.title = "Psst... click Pip three times!";
-      pipImage.setAttribute("role", "button");
-      pipImage.setAttribute("tabindex", "0");
-      pipImage.setAttribute(
-        "aria-label",
-        "Click Pip three times to discover a tiny secret"
-      );
-
-      function handlePipClick() {
-        pipClicks += 1;
-
-        if (pipClicks >= 3) {
-          pipClicks = 0;
-          showSecret();
-        }
-      }
-
-      pipImage.addEventListener("click", handlePipClick);
-      pipImage.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          handlePipClick();
-        }
-      });
-    }
-
-    // STORY SCENE REVEALS
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver((entries) => {
+  if ("IntersectionObserver" in window && storyScenes.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
+            entry.target.classList.add("visible");
             observer.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.12 });
+      },
+      { threshold: 0.15 }
+    );
 
-      scenes.forEach((scene) => observer.observe(scene));
-    } else {
-      scenes.forEach((scene) => scene.classList.add("is-visible"));
-    }
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initPipSite, { once: true });
+    storyScenes.forEach((scene) => observer.observe(scene));
   } else {
-    initPipSite();
+    storyScenes.forEach((scene) => scene.classList.add("visible"));
   }
-})();
+
+  console.log("Pip's Dream Nursery is ready! ✨");
+});
