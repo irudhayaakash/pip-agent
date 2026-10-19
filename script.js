@@ -90,3 +90,61 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+/* Pip's Tiny Secret — button + three clicks on Pip */
+(function initTinySecret() {
+  const setup = () => {
+    const pip = document.querySelector(".hero-art .pip-image");
+    const secretButton = document.getElementById("secretButton");
+    const secretMessage = document.getElementById("secretMessage");
+
+    if (!pip || !secretButton || !secretMessage) {
+      console.error("Tiny Secret: Required HTML elements are missing.");
+      return;
+    }
+
+    let clicks = 0;
+    let unlocked = false;
+
+    function revealSecret() {
+      if (unlocked) return;
+
+      unlocked = true;
+      secretMessage.textContent =
+        "✨ You found Pip's tiny secret! Sweet dreams, little dreamer. 💗";
+
+      secretMessage.style.display = "block";
+      secretMessage.style.visibility = "visible";
+      secretMessage.style.opacity = "1";
+
+      secretButton.textContent = "Secret unlocked! ✨";
+
+      if (typeof confetti === "function") {
+        confetti({
+          particleCount: 70,
+          spread: 65,
+          origin: { y: 0.7 }
+        });
+      }
+    }
+
+    pip.style.cursor = "pointer";
+    pip.title = "Psst... click Pip three times!";
+
+    pip.addEventListener("click", () => {
+      clicks += 1;
+
+      if (clicks >= 3) {
+        revealSecret();
+      }
+    });
+
+    secretButton.addEventListener("click", revealSecret);
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setup, { once: true });
+  } else {
+    setup();
+  }
+})();
