@@ -1,210 +1,378 @@
 
-(() => {
-  "use strict";
+:root {
+  --bg: #fff8f1;
+  --paper: #fffdf9;
+  --ink: #443548;
+  --muted: #817383;
+  --pink: #e99ab6;
+  --pink-dark: #bf648b;
+  --line: #f0dfdf;
+  --peach: #ffeadb;
+}
 
-  function initPipSite() {
-    const themeToggle = document.getElementById("themeToggle");
-    const soundToggle = document.getElementById("soundToggle");
-    const secretButton = document.getElementById("secretButton");
-    const secretMessage = document.getElementById("secretMessage");
-    const projectMessage = document.getElementById("projectMessage");
-    const pipImage = document.querySelector(".hero-art .pip-image");
-    const storySection = document.getElementById("story");
+* { box-sizing: border-box; }
 
-    let soundEnabled = false;
-    let audioContext = null;
-    let pipClicks = 0;
-    let pipClickTimer = null;
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
 
-    // DREAM MODE
-    if (themeToggle) {
-      themeToggle.addEventListener("click", () => {
-        const enabled = document.body.classList.toggle("dream-mode");
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Fredoka', sans-serif;
+  line-height: 1.65;
+  transition: background .4s ease, color .4s ease;
+}
 
-        themeToggle.setAttribute("aria-pressed", String(enabled));
-        themeToggle.title = enabled ? "Turn Dream Mode off" : "Turn Dream Mode on";
-      });
-    }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
 
-    // SOUND
-    function getAudioContext() {
-      const AudioContextClass =
-        window.AudioContext || window.webkitAudioContext;
+button:focus-visible, a:focus-visible {
+  outline: 3px solid #b78bd5;
+  outline-offset: 4px;
+}
 
-      if (!AudioContextClass) return null;
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 15px clamp(18px, 5vw, 76px);
+  background: rgba(255,248,241,.92);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(16px);
+}
 
-      if (!audioContext) {
-        audioContext = new AudioContextClass();
-      }
+.wordmark { font-weight: 700; font-size: 1.2rem; }
 
-      return audioContext;
-    }
+.topbar nav, .controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
 
-    function playChime(frequency = 523, duration = 0.2) {
-      if (!soundEnabled) return;
+.topbar nav a { color: var(--muted); }
 
-      try {
-        const context = getAudioContext();
-        if (!context) return;
+.controls { gap: 8px; }
 
-        if (context.state === "suspended") {
-          context.resume();
-        }
+.controls button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 13px;
+  color: var(--ink);
+  background: var(--paper);
+}
 
-        const oscillator = context.createOscillator();
-        const gain = context.createGain();
+.section {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 88px 0;
+}
 
-        oscillator.type = "sine";
-        oscillator.frequency.value = frequency;
+.hero {
+  min-height: 620px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 40px;
+  padding-top: 65px;
+}
 
-        gain.gain.setValueAtTime(0.0001, context.currentTime);
-        gain.gain.exponentialRampToValueAtTime(
-          0.12,
-          context.currentTime + 0.03
-        );
-        gain.gain.exponentialRampToValueAtTime(
-          0.0001,
-          context.currentTime + duration
-        );
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--pink-dark);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
 
-        oscillator.connect(gain);
-        gain.connect(context.destination);
+.eyebrow-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pink);
+}
 
-        oscillator.start();
-        oscillator.stop(context.currentTime + duration);
-      } catch (error) {
-        console.error("Sound could not play:", error);
-      }
-    }
+h1, h2 {
+  font-family: 'Fraunces', serif;
+  line-height: 1.12;
+  letter-spacing: -.04em;
+}
 
-    if (soundToggle) {
-      soundToggle.setAttribute("aria-pressed", "false");
+h1 { font-size: clamp(3.5rem, 7vw, 6.4rem); margin: 24px 0; }
+h1 span { color: var(--pink-dark); }
+h2 { font-size: clamp(2.25rem, 4vw, 3.6rem); margin: 12px 0 20px; }
+h3 { line-height: 1.2; }
 
-      soundToggle.addEventListener("click", async () => {
-        soundEnabled = !soundEnabled;
+.intro, .section-lead { color: var(--muted); font-size: 1.08rem; }
+.intro { max-width: 490px; }
 
-        soundToggle.setAttribute("aria-pressed", String(soundEnabled));
-        soundToggle.title = soundEnabled ? "Turn sound off" : "Turn sound on";
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 
-        if (soundEnabled) {
-          const context = getAudioContext();
+.primary-button, .secondary-button, .project-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 999px;
+  padding: 13px 20px;
+  font-weight: 600;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
 
-          if (context && context.state === "suspended") {
-            await context.resume();
-          }
+.primary-button {
+  border: 0;
+  color: white;
+  background: var(--pink-dark);
+  box-shadow: 0 9px 22px rgba(191,100,139,.22);
+}
 
-          playChime(659, 0.25);
-        }
-      });
-    }
+.secondary-button { border: 1px solid var(--line); background: var(--paper); }
 
-    // PROJECT BUTTONS
-    document.querySelectorAll(".project-action").forEach((button) => {
-      button.addEventListener("click", () => {
-        const action = button.dataset.action;
+.primary-button:hover, .secondary-button:hover, .project-action:hover {
+  transform: translateY(-3px);
+}
 
-        if (action === "lullaby") {
-          if (projectMessage) {
-            projectMessage.textContent =
-              "A little lullaby, just for your dreams. ✨";
-          }
+.tiny-note { margin-top: 25px; color: #a293a3; font-size: .88rem; }
 
-          [523, 659, 784].forEach((note, index) => {
-            window.setTimeout(() => playChime(note, 0.3), index * 260);
-          });
-        }
+.hero-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 420px;
+  border-radius: 48% 52% 45% 55%;
+  background: radial-gradient(circle, #fff 0%, #f9e7f1 48%, #f6e5d9 100%);
+}
 
-        if (action === "lantern") {
-          const lit = document.body.classList.toggle("lantern-lit");
+.pip-image {
+  width: min(100%, 480px);
+  max-height: 500px;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 24px rgba(89,62,89,.12));
+  cursor: pointer;
+}
 
-          if (projectMessage) {
-            projectMessage.textContent = lit
-              ? "Your dream lantern is glowing! 🏮"
-              : "The lantern is resting until your next dream.";
-          }
+.hero-art-sparkle {
+  position: absolute;
+  color: #d29cc6;
+  font-size: 2.4rem;
+  animation: twinkle 2.4s ease-in-out infinite;
+}
 
-          playChime(784, 0.25);
-        }
+.sparkle-one { top: 14%; right: 13%; }
+.sparkle-two { bottom: 16%; left: 9%; }
 
-        if (action === "story") {
-          if (storySection) {
-            storySection.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-          }
+@keyframes twinkle {
+  50% { opacity: .4; transform: scale(.78) rotate(20deg); }
+}
 
-          if (projectMessage) {
-            projectMessage.textContent =
-              "Your next adventure is waiting in the story. 📖";
-          }
+.tag-list { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 34px; }
 
-          playChime(659, 0.2);
-        }
-      });
-    });
+.tag-list span {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #f7e7ef;
+  color: #9d5c7c;
+}
 
-    // TINY SECRET
-    function revealSecret() {
-      document.body.classList.add("egg-unlocked");
+.character-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
 
-      if (secretMessage) {
-        secretMessage.textContent =
-          "You found Pip's tiny secret! ✨ Keep dreaming, keep creating, and remember that a little magic lives in you. 💗";
+.character-facts article {
+  display: grid;
+  gap: 7px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--paper);
+}
 
-        secretMessage.hidden = false;
-        secretMessage.style.display = "block";
-        secretMessage.setAttribute("aria-live", "polite");
-      }
+.character-facts article span, .project-number, .scene-number {
+  color: var(--pink-dark);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
 
-      playChime(784, 0.35);
-    }
+#projects { padding-top: 55px; }
 
-    if (secretButton) {
-      secretButton.addEventListener("click", revealSecret);
-    }
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 35px;
+}
 
-    // Click Pip's picture 3 times to reveal the secret
-    if (pipImage) {
-      pipImage.addEventListener("click", () => {
-        pipClicks += 1;
+.project-card {
+  overflow: hidden;
+  padding: 18px 18px 22px;
+  border: 1px solid var(--line);
+  border-radius: 25px;
+  background: var(--paper);
+  box-shadow: 0 10px 35px rgba(107,72,94,.05);
+  transition: transform .25s ease;
+}
 
-        window.clearTimeout(pipClickTimer);
+.project-card:hover { transform: translateY(-5px); }
 
-        if (pipClicks >= 3) {
-          pipClicks = 0;
-          revealSecret();
-        } else {
-          pipClickTimer = window.setTimeout(() => {
-            pipClicks = 0;
-          }, 1200);
-        }
-      });
-    }
+.project-art, .lantern-art {
+  display: grid;
+  place-items: center;
+  height: 215px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #fbecf2;
+}
 
-    // Reveal story scene when it enters the viewport
-    const storyScene = document.querySelector(".story-scene");
+.project-art img, .lantern-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 
-    if (storyScene && "IntersectionObserver" in window) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              storyScene.classList.add("visible");
-              observer.unobserve(storyScene);
-            }
-          });
-        },
-        { threshold: 0.2 }
-      );
+.lantern-art { background: #f1eafa; }
+.project-number { margin: 20px 0 8px; }
+.project-card h3 { margin: 0 0 9px; }
 
-      observer.observe(storyScene);
-    }
+.project-card > p:not(.project-number) {
+  min-height: 52px;
+  margin: 0 0 17px;
+  color: var(--muted);
+}
+
+.project-action {
+  width: 100%;
+  border: 1px solid #efd5e1;
+  background: #fff3f7;
+  color: #985575;
+}
+
+.feedback { min-height: 28px; margin-top: 22px; text-align: center; color: var(--pink-dark); }
+
+.story-section { max-width: 900px; }
+
+.story-scene {
+  margin: 22px 0;
+  padding: 30px clamp(22px, 5vw, 42px);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--paper);
+  box-shadow: 0 10px 30px rgba(107,72,94,.05);
+}
+
+.story-scene h3 { margin: 10px 0; font-family: 'Fraunces', serif; font-size: 1.7rem; }
+.story-scene p { margin-bottom: 0; color: var(--muted); }
+.story-scene.is-visible { animation: sceneIn .7s ease both; }
+
+@keyframes sceneIn {
+  from { opacity: .45; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.finale {
+  margin-bottom: 70px;
+  padding: 62px 24px;
+  text-align: center;
+  border-radius: 34px;
+  background: linear-gradient(135deg, #f9e8f0, #f0e9fb 60%, #fff0e3);
+}
+
+.finale p { color: var(--muted); }
+.finale-sparkle { color: var(--pink-dark); font-size: 1.5rem; }
+
+#secretMessage {
+  max-width: 650px;
+  margin: 22px auto 0;
+  padding: 16px 20px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.75);
+  color: #985575;
+}
+
+#secretMessage[hidden] { display: none !important; }
+.hint { font-size: .88rem; }
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 25px clamp(18px, 5vw, 76px);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+
+body.dream-mode {
+  --bg: #242039;
+  --paper: #302944;
+  --ink: #f7eefa;
+  --muted: #c8bbd5;
+  --pink: #e8a6d0;
+  --pink-dark: #e5a0c8;
+  --line: #4a3b59;
+  --peach: #46354e;
+}
+
+body.dream-mode .topbar { background: rgba(36,32,57,.94); }
+body.dream-mode .hero-art { background: radial-gradient(circle, #4b3d60, #29233e); }
+body.dream-mode .tag-list span { background: #49344f; color: #f1b9d9; }
+body.dream-mode .project-art { background: #453348; }
+body.dream-mode .lantern-art { background: #3b3152; }
+body.dream-mode .project-action { background: #49354d; color: #f5c5df; }
+body.dream-mode .finale { background: linear-gradient(135deg, #46314d, #393353 60%, #4b374a); }
+body.dream-mode #secretMessage { background: #392e49; color: #f5c5df; }
+
+body.lantern-lit .lantern-art {
+  box-shadow: inset 0 0 45px rgba(255,211,120,.75), 0 0 30px rgba(255,211,120,.32);
+}
+
+body.lantern-lit .dream-lantern-image {
+  filter: drop-shadow(0 0 18px rgba(255,204,105,.9));
+}
+
+body.egg-unlocked .finale {
+  box-shadow: 0 0 0 4px rgba(233,154,182,.25), 0 20px 60px rgba(191,100,139,.16);
+}
+
+@media (max-width: 850px) {
+  .topbar { flex-wrap: wrap; justify-content: center; }
+  .topbar nav { order: 3; width: 100%; justify-content: center; }
+  .hero { grid-template-columns: 1fr; gap: 18px; text-align: center; }
+  .hero-copy { margin: auto; }
+  .eyebrow, .hero-actions { justify-content: center; }
+  .intro { margin-inline: auto; }
+  .hero-art { min-height: 320px; }
+  .pip-image { max-height: 370px; }
+  .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .section { width: calc(100% - 34px); padding: 62px 0; }
+  .topbar { gap: 12px; padding: 12px 14px; }
+  .topbar nav { gap: 20px; }
+  .controls { width: 100%; justify-content: center; }
+  h1 { font-size: clamp(3.1rem, 15vw, 4.6rem); }
+  .hero-art { min-height: 270px; }
+  .pip-image { max-height: 310px; }
+  .character-facts, .project-grid { grid-template-columns: 1fr; }
+  .project-art, .lantern-art { height: 240px; }
+  .footer { flex-direction: column; align-items: center; text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
   }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initPipSite);
-  } else {
-    initPipSite();
-  }
-})();
+}
