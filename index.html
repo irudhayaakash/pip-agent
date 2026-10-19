@@ -5,279 +5,307 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#fff8f1">
+
   <title>Pip's Cozy Dream Nursery</title>
+  <meta name="description" content="Welcome to Pip's Cozy Dream Nursery, a magical little world of lullabies, dream lanterns and bedtime stories.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
   <header class="topbar">
     <a class="wordmark" href="#home">Pip's little world</a>
+
     <nav aria-label="Main navigation">
       <a href="#about">About</a>
       <a href="#projects">Dreams</a>
       <a href="#story">Story</a>
     </nav>
+
     <div class="controls">
-      <button id="themeToggle" type="button" aria-pressed="false">☾ Dream mode</button>
-      <button id="soundToggle" type="button" aria-pressed="false">♫ Sound: off</button>
+      <button id="themeToggle" type="button" aria-pressed="false">
+        ☾ Dream mode
+      </button>
+
+      <button id="soundToggle" type="button" aria-pressed="false">
+        ♫ Sound: off
+      </button>
     </div>
   </header>
 
   <main>
+    <!-- HERO SECTION -->
     <section class="hero section" id="home">
       <div class="hero-copy">
-        <p class="eyebrow"><span class="eyebrow-dot"></span> MIDNIGHT NURSERY <span class="eyebrow-sep">✦</span> DREAM ENGINEER</p>
+        <p class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          MIDNIGHT NURSERY
+          <span class="eyebrow-sep">✦</span>
+          DREAM ENGINEER
+        </p>
+
         <h1>Small baby.<br><span>Big dreams.</span></h1>
-        <p class="intro">Hello, sleepyhead! I'm Pip. I make tiny dreams, cozy nightlights and lullabies for little creatures.</p>
+
+        <p class="intro">
+          Hello, sleepyhead! I'm Pip. I make tiny dreams,
+          cozy nightlights and lullabies for little creatures.
+        </p>
+
         <div class="hero-actions">
-          <a class="primary-button" href="#projects">Explore the dream lab <span>↗</span></a>
-          <a class="secondary-button" href="#story">Meet Pip’s story <span>♡</span></a>
+          <a class="primary-button" href="#projects">
+            Explore the dream lab <span>↗</span>
+          </a>
+
+          <a class="secondary-button" href="#story">
+            Meet Pip’s story <span>♡</span>
+          </a>
         </div>
-        <p class="tiny-note">✦ Made with moonbeams &amp; a little imagination</p>
+
+        <p class="tiny-note">
+          ✦ Made with moonbeams &amp; a little imagination
+        </p>
       </div>
+
       <div class="hero-art">
-        <img class="pip-image" src="assets/pip.jpg" alt="Pip sitting on a fluffy cloud">
+        <img
+          class="pip-image"
+          src="assets/pip.jpg"
+          alt="Pip sitting on a fluffy cloud"
+        >
+
         <span class="hero-art-sparkle sparkle-one">✦</span>
         <span class="hero-art-sparkle sparkle-two">✧</span>
       </div>
     </section>
 
+    <!-- ABOUT SECTION -->
     <section class="section" id="about">
-      <p class="eyebrow"><span class="eyebrow-dot"></span> A LITTLE INTRODUCTION</p>
+      <p class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        A LITTLE INTRODUCTION
+      </p>
+
       <h2>Who is this tiny dreamer?</h2>
-      <p class="section-lead">Pip is a gentle skull baby who loves making the world a little softer, one bedtime at a time.</p>
+
+      <p class="section-lead">
+        Pip is a gentle skull baby who loves making the world
+        a little softer, one bedtime at a time.
+      </p>
+
       <div class="tag-list">
-        <span>Sleepyhead</span><span>Dream maker</span>
-        <span>Star collector</span><span>Very gentle</span>
+        <span>Sleepyhead</span>
+        <span>Dream maker</span>
+        <span>Star collector</span>
+        <span>Very gentle</span>
       </div>
+
       <div class="character-facts">
-        <article><span>SPECIES</span><strong>Skull Baby</strong></article>
-        <article><span>PERSONALITY</span><strong>Gentle &amp; curious</strong></article>
-        <article><span>FAVOURITE THING</span><strong>Helping little stars</strong></article>
+        <article>
+          <span>SPECIES</span>
+          <strong>Skull Baby</strong>
+        </article>
+
+        <article>
+          <span>PERSONALITY</span>
+          <strong>Gentle &amp; curious</strong>
+        </article>
+
+        <article>
+          <span>FAVOURITE THING</span>
+          <strong>Helping little stars</strong>
+        </article>
       </div>
     </section>
 
+    <!-- DREAM PROJECTS -->
     <section class="section" id="projects">
-      <p class="eyebrow"><span class="eyebrow-dot"></span> THE THINGS I MAKE</p>
+      <p class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        THE THINGS I MAKE
+      </p>
+
       <h2>Welcome to my dream lab.</h2>
-      <p class="section-lead">Every tiny invention has one big job: making bedtime feel safe.</p>
+
+      <p class="section-lead">
+        Every tiny invention has one big job:
+        making bedtime feel safe.
+      </p>
 
       <div class="project-grid">
+        <!-- PROJECT 1 -->
         <article class="project-card">
           <div class="project-art">
-            <img src="assets/pip_lullaby_box.png" alt="Pip's lullaby music box">
+            <img
+              src="assets/pip_lullaby_box.png"
+              alt="Pip's lullaby music box"
+              loading="lazy"
+            >
           </div>
+
           <p class="project-number">PROJECT 01</p>
           <h3>The Lullaby Lab</h3>
-          <p>Little melodies for the sleepiest little ears.</p>
-          <button type="button" class="project-action" data-action="lullaby">Play a lullaby ♫</button>
+
+          <p>
+            Little melodies for the sleepiest little ears.
+          </p>
+
+          <button
+            type="button"
+            class="project-action"
+            data-action="lullaby"
+          >
+            Play a lullaby ♫
+          </button>
         </article>
 
+        <!-- PROJECT 2 -->
         <article class="project-card">
           <div class="lantern-art">
-            <img class="dream-lantern-image" src="assets/pip_dream_lantern.png" alt="Pip's dream lantern">
+            <img
+              class="dream-lantern-image"
+              src="assets/pip_dream_lantern.png"
+              alt="Pip's dream lantern"
+              loading="lazy"
+            >
           </div>
+
           <p class="project-number">PROJECT 02</p>
           <h3>Dream Lanterns</h3>
-          <p>A pocket-sized glow for the dark.</p>
-          <button type="button" class="project-action" data-action="lantern" aria-pressed="false">Light the lantern ✦</button>
+
+          <p>
+            A pocket-sized glow for the dark.
+          </p>
+
+          <button
+            type="button"
+            class="project-action"
+            data-action="lantern"
+            aria-pressed="false"
+          >
+            Light the lantern ✦
+          </button>
         </article>
 
+        <!-- PROJECT 3 -->
         <article class="project-card">
           <div class="project-art">
-            <img class="storybook-image" src="assets/pip_avatar_cloud.png" alt="Pip resting on a cloud">
+            <img
+              class="storybook-image"
+              src="assets/pip_avatar_cloud.png"
+              alt="Pip resting on a cloud"
+              loading="lazy"
+            >
           </div>
+
           <p class="project-number">PROJECT 03</p>
           <h3>Bedtime Storybook</h3>
-          <p>A tiny story about a star that lost its sparkle.</p>
-          <button type="button" class="project-action" data-action="story">Read a little story →</button>
+
+          <p>
+            A tiny story about a star that lost its sparkle.
+          </p>
+
+          <button
+            type="button"
+            class="project-action"
+            data-action="story"
+          >
+            Read a little story →
+          </button>
         </article>
       </div>
-      <p id="projectMessage" class="feedback" aria-live="polite"></p>
+
+      <p
+        id="projectMessage"
+        class="feedback"
+        aria-live="polite"
+      ></p>
     </section>
 
+    <!-- STORY SECTION -->
     <section class="section story-section" id="story">
-      <p class="eyebrow"><span class="eyebrow-dot"></span> ONCE UPON A MOONLIT NIGHT</p>
+      <p class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        ONCE UPON A MOONLIT NIGHT
+      </p>
+
       <h2>How Pip found a dream.</h2>
-      <p class="section-lead">Scroll slowly. This little bedtime tale is best enjoyed without rushing.</p>
+
+      <p class="section-lead">
+        Scroll slowly. This little bedtime tale is best enjoyed
+        without rushing.
+      </p>
 
       <article class="story-scene">
         <span class="scene-number">01 / THE DISCOVERY</span>
+
         <h3>A tiny light in the garden</h3>
-        <p>One quiet night, Pip found a little star hiding beneath a flower. It had lost its glow and couldn't find its way home.</p>
+
+        <p>
+          One quiet night, Pip found a little star hiding beneath
+          a flower. It had lost its glow and couldn't find its way home.
+        </p>
       </article>
+
       <article class="story-scene">
         <span class="scene-number">02 / THE INVENTION</span>
+
         <h3>A lantern made of kindness</h3>
-        <p>Pip made a warm lantern, sang a gentle tune and followed a trail of tiny sparkles across the nursery rooftops.</p>
+
+        <p>
+          Pip made a warm lantern, sang a gentle tune and followed
+          a trail of tiny sparkles across the nursery rooftops.
+        </p>
       </article>
+
       <article class="story-scene">
         <span class="scene-number">03 / HOME AGAIN</span>
+
         <h3>Every little star belongs</h3>
-        <p>The star found its family again. From then on, Pip made little lights and dreams for anyone who needed them.</p>
+
+        <p>
+          The star found its family again. From then on, Pip made
+          little lights and dreams for anyone who needed them.
+        </p>
       </article>
     </section>
 
+    <!-- FINALE SECTION -->
     <section class="section finale">
       <div class="finale-sparkle">✧ · ✦ · ✧</div>
+
       <h2>Leave a little stardust.</h2>
-      <p>Somewhere, a tiny secret is waiting to be found.</p>
-      <button id="secretButton" class="primary-button" type="button">A tiny secret ✦</button>
+
+      <p>
+        Somewhere, a tiny secret is waiting to be found.
+      </p>
+
+      <button
+        id="secretButton"
+        class="primary-button"
+        type="button"
+      >
+        A tiny secret ✦
+      </button>
+
       <p id="secretMessage" aria-live="polite" hidden></p>
-      <p class="hint">Psst… curious visitors sometimes click Pip three times.</p>
+
+      <p class="hint">
+        Psst… curious visitors sometimes click Pip three times.
+      </p>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer class="footer">
     <span>Made with love in Pip's little dream lab ♡</span>
     <a href="#home">Back to the moon ↑</a>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <script src="./script.js" defer></script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#fff8f1">
-  <title>Pip's Cozy Dream Nursery</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-  <header class="topbar">
-    <a class="wordmark" href="#home">Pip's little world</a>
-    <nav aria-label="Main navigation">
-      <a href="#about">About</a>
-      <a href="#projects">Dreams</a>
-      <a href="#story">Story</a>
-    </nav>
-    <div class="controls">
-      <button id="themeToggle" type="button" aria-pressed="false">☾ Dream mode</button>
-      <button id="soundToggle" type="button" aria-pressed="false">♫ Sound: off</button>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero section" id="home">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="eyebrow-dot"></span> MIDNIGHT NURSERY <span class="eyebrow-sep">✦</span> DREAM ENGINEER</p>
-        <h1>Small baby.<br><span>Big dreams.</span></h1>
-        <p class="intro">Hello, sleepyhead! I'm Pip. I make tiny dreams, cozy nightlights and lullabies for little creatures.</p>
-        <div class="hero-actions">
-          <a class="primary-button" href="#projects">Explore the dream lab <span>↗</span></a>
-          <a class="secondary-button" href="#story">Meet Pip’s story <span>♡</span></a>
-        </div>
-        <p class="tiny-note">✦ Made with moonbeams &amp; a little imagination</p>
-      </div>
-      <div class="hero-art">
-        <img class="pip-image" src="assets/pip.jpg" alt="Pip sitting on a fluffy cloud">
-        <span class="hero-art-sparkle sparkle-one">✦</span>
-        <span class="hero-art-sparkle sparkle-two">✧</span>
-      </div>
-    </section>
-
-    <section class="section" id="about">
-      <p class="eyebrow"><span class="eyebrow-dot"></span> A LITTLE INTRODUCTION</p>
-      <h2>Who is this tiny dreamer?</h2>
-      <p class="section-lead">Pip is a gentle skull baby who loves making the world a little softer, one bedtime at a time.</p>
-      <div class="tag-list">
-        <span>Sleepyhead</span><span>Dream maker</span>
-        <span>Star collector</span><span>Very gentle</span>
-      </div>
-      <div class="character-facts">
-        <article><span>SPECIES</span><strong>Skull Baby</strong></article>
-        <article><span>PERSONALITY</span><strong>Gentle &amp; curious</strong></article>
-        <article><span>FAVOURITE THING</span><strong>Helping little stars</strong></article>
-      </div>
-    </section>
-
-    <section class="section" id="projects">
-      <p class="eyebrow"><span class="eyebrow-dot"></span> THE THINGS I MAKE</p>
-      <h2>Welcome to my dream lab.</h2>
-      <p class="section-lead">Every tiny invention has one big job: making bedtime feel safe.</p>
-
-      <div class="project-grid">
-        <article class="project-card">
-          <div class="project-art">
-            <img src="assets/pip_lullaby_box.png" alt="Pip's lullaby music box">
-          </div>
-          <p class="project-number">PROJECT 01</p>
-          <h3>The Lullaby Lab</h3>
-          <p>Little melodies for the sleepiest little ears.</p>
-          <button type="button" class="project-action" data-action="lullaby">Play a lullaby ♫</button>
-        </article>
-
-        <article class="project-card">
-          <div class="lantern-art">
-            <img class="dream-lantern-image" src="assets/pip_dream_lantern.png" alt="Pip's dream lantern">
-          </div>
-          <p class="project-number">PROJECT 02</p>
-          <h3>Dream Lanterns</h3>
-          <p>A pocket-sized glow for the dark.</p>
-          <button type="button" class="project-action" data-action="lantern" aria-pressed="false">Light the lantern ✦</button>
-        </article>
-
-        <article class="project-card">
-          <div class="project-art">
-            <img class="storybook-image" src="assets/pip_avatar_cloud.png" alt="Pip resting on a cloud">
-          </div>
-          <p class="project-number">PROJECT 03</p>
-          <h3>Bedtime Storybook</h3>
-          <p>A tiny story about a star that lost its sparkle.</p>
-          <button type="button" class="project-action" data-action="story">Read a little story →</button>
-        </article>
-      </div>
-      <p id="projectMessage" class="feedback" aria-live="polite"></p>
-    </section>
-
-    <section class="section story-section" id="story">
-      <p class="eyebrow"><span class="eyebrow-dot"></span> ONCE UPON A MOONLIT NIGHT</p>
-      <h2>How Pip found a dream.</h2>
-      <p class="section-lead">Scroll slowly. This little bedtime tale is best enjoyed without rushing.</p>
-
-      <article class="story-scene">
-        <span class="scene-number">01 / THE DISCOVERY</span>
-        <h3>A tiny light in the garden</h3>
-        <p>One quiet night, Pip found a little star hiding beneath a flower. It had lost its glow and couldn't find its way home.</p>
-      </article>
-      <article class="story-scene">
-        <span class="scene-number">02 / THE INVENTION</span>
-        <h3>A lantern made of kindness</h3>
-        <p>Pip made a warm lantern, sang a gentle tune and followed a trail of tiny sparkles across the nursery rooftops.</p>
-      </article>
-      <article class="story-scene">
-        <span class="scene-number">03 / HOME AGAIN</span>
-        <h3>Every little star belongs</h3>
-        <p>The star found its family again. From then on, Pip made little lights and dreams for anyone who needed them.</p>
-      </article>
-    </section>
-
-    <section class="section finale">
-      <div class="finale-sparkle">✧ · ✦ · ✧</div>
-      <h2>Leave a little stardust.</h2>
-      <p>Somewhere, a tiny secret is waiting to be found.</p>
-      <button id="secretButton" class="primary-button" type="button">A tiny secret ✦</button>
-      <p id="secretMessage" aria-live="polite" hidden></p>
-      <p class="hint">Psst… curious visitors sometimes click Pip three times.</p>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <span>Made with love in Pip's little dream lab ♡</span>
-    <a href="#home">Back to the moon ↑</a>
-  </footer>
-
+  <!-- SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script src="./script.js" defer></script>
 </body>
