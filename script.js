@@ -51,3 +51,42 @@ if("IntersectionObserver"in window){
   const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("is-visible");observer.unobserve(entry.target);}}),{threshold:.12});
   scenes.forEach(scene=>observer.observe(scene));
 }else{scenes.forEach(scene=>scene.classList.add("is-visible"));}
+
+/* Tiny Secret: Click Pip three times to unlock */
+document.addEventListener("DOMContentLoaded", () => {
+  const pip = document.querySelector(".hero-art .pip-image")
+    || document.querySelector(".pip-image");
+
+  const secretMessage = document.querySelector("#secretMessage");
+
+  if (!pip || !secretMessage) {
+    console.error("Tiny Secret: Pip image or #secretMessage element not found.");
+    return;
+  }
+
+  let clickCount = 0;
+  let unlocked = false;
+
+  pip.style.cursor = "pointer";
+  pip.setAttribute("title", "Psst... click Pip three times!");
+
+  pip.addEventListener("click", () => {
+    if (unlocked) return;
+
+    clickCount++;
+
+    if (clickCount >= 3) {
+      unlocked = true;
+
+      document.body.classList.add("egg-unlocked");
+
+      secretMessage.textContent =
+        "✨ You found Pip's tiny secret! Sweet dreams, little dreamer. 💗";
+
+      secretMessage.style.display = "block";
+      secretMessage.style.visibility = "visible";
+      secretMessage.style.opacity = "1";
+      secretMessage.setAttribute("aria-live", "polite");
+    }
+  });
+});
