@@ -1081,3 +1081,30 @@ body.egg-unlocked .finale h2 {
     transform: none;
   }
 }
+
+#secretMessage {
+  display: none;
+  margin: 20px auto 0;
+  max-width: 520px;
+  color: #b65b86;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.7;
+}
+
+#secretMessage:not(:empty) {
+  display: block;
+  animation: secretReveal 0.5s ease-out;
+}
+
+@keyframes secretReveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
